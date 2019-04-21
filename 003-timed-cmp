@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+time cmp "$1" "$2"
