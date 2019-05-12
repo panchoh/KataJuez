@@ -1,0 +1,16 @@
+#!/usr/bin/env perl
+
+use v5.28.2;
+
+use strict;
+use warnings;
+
+use autodie qw(open close);
+
+sub slurp {
+    my $filename = shift;
+    open my $fh, '<', $filename;
+    return do { local $/; <$fh> }
+}
+
+exit (slurp(shift) ne slurp(shift))
