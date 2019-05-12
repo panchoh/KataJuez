@@ -48,7 +48,7 @@ func main() {
 	}
 
 	var stat syscall.Statfs_t
-	err = syscall.Statfs(file1, &stat)
+	err = syscall.Fstatfs(int(f1.Fd()), &stat)
 	if err != nil {
 		log.Fatalf("Could not determine the filesystem block size: %v", err)
 	}
