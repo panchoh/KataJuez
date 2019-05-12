@@ -5,14 +5,14 @@ use strict;
 use v5.28;
 use autodie;
 
-use Digest::MD5;
+use Digest::SHA;
 
 sub slurp { do { local (@ARGV, $/) = shift; <> } }
 
-sub md5 {
+sub sha512 {
     my $file = shift;
     open my $fh, '<:bytes', $file;
-    my $digest = Digest::MD5->new->addfile($fh)->digest;
+    my $digest = Digest::SHA->new('sha512')->addfile($fh)->digest;
     close $fh;
     return $digest
 }
@@ -23,4 +23,4 @@ if (-s $fileA != -s $fileB) {
     exit 1;
 }
 
-exit (md5($fileA) ne md5($fileB))
+exit (sha512($fileA) ne sha512($fileB))
