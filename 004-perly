@@ -2,4 +2,11 @@
 
 sub slurp { do { local (@ARGV, $/) = shift; <> } }
 
-exit (slurp(shift) ne slurp(shift))
+
+my ($fileA, $fileB) = @ARGV;
+
+if (-s $fileA != -s $fileB) {
+    exit 1;
+}
+
+exit (slurp($fileA) ne slurp($fileB))
