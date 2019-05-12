@@ -59,20 +59,23 @@ func main() {
 
 	for {
 		n1, err := f1.Read(buf1)
-		if err == io.EOF {
+		if err != nil && err != io.EOF {
+			log.Fatalf("error reading %v: %v", file1, err)
+		}
+		if n1 == 0 {
 			os.Exit(0)
 		}
 
 		n2, err := f2.Read(buf2)
-		if err == io.EOF {
+		if err != nil && err != io.EOF {
+			log.Fatalf("error reading %v: %v", file2, err)
+		}
+		if n2 == 0 {
+			// Shouldn't happen!
 			os.Exit(0)
 		}
 
-		if n1 != n2 {
-			log.Fatalf("files do not have the same size")
-		}
-
-		if !bytes.Equal(buf1, buf2) {
+		if !bytes.Equal(buf1[:n1], buf2[:n2]) {
 			os.Exit(1)
 		}
 	}
