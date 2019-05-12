@@ -1,12 +1,5 @@
-#!/usr/bin/env perl
+#!/usr/bin/env -S perl -w
 
-use v5.28.2;
-
-use strict;
-use warnings;
-
-sub slurp {
-    return do { local (@ARGV, $/) = shift; <> }
-}
+sub slurp { do { local (@ARGV, $/) = shift; <> } }
 
 exit (slurp(shift) ne slurp(shift))
