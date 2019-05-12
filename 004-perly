@@ -1,7 +1,21 @@
 #!/usr/bin/env -S perl -w
 
+use warnings;
+use strict;
+use v5.28;
+use autodie;
+
+use Digest::MD5;
+
 sub slurp { do { local (@ARGV, $/) = shift; <> } }
 
+sub md5 {
+    my $file = shift;
+    open my $fh, '<:bytes', $file;
+    my $digest = Digest::MD5->new->addfile($fh)->digest;
+    close $fh;
+    return $digest
+}
 
 my ($fileA, $fileB) = @ARGV;
 
@@ -9,4 +23,4 @@ if (-s $fileA != -s $fileB) {
     exit 1;
 }
 
-exit (slurp($fileA) ne slurp($fileB))
+exit (md5($fileA) ne md5($fileB))
